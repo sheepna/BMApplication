@@ -5,11 +5,13 @@ public class Book {
     private String title;
     private String ap;
     private String time;
+    private String publi;
     private int resourceId;
 
-    public Book(String title,String ap,String time,int resourceId){
+    public Book(String title,String ap,String publi,String time,int resourceId){
         this.title=title;
         this.ap=ap;
+        this.publi=publi;
         this.time=time;
         this.resourceId=resourceId;
     }
@@ -20,9 +22,16 @@ public class Book {
         this.title = title;
     }
     public String getAp(){return ap;}
-
     public void setAp(String ap) {
         this.ap = ap;
+    }
+
+    public String getPubli() {
+        return publi;
+    }
+
+    public void setPubli(String publi) {
+        this.publi = publi;
     }
 
     public String getTime() {

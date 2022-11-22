@@ -22,17 +22,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //准备数据
         books=new ArrayList<Book>();
         getBook();
 
         RecyclerView recyclerViewMain=findViewById(R.id.recycleview_main);
+        //定义布局管理
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewMain.setLayoutManager(linearLayoutManager);
+        //接收数据
         MainRecycleViewAdapter mainRecycleViewAdapter=new MainRecycleViewAdapter(books);
         recyclerViewMain.setAdapter(mainRecycleViewAdapter);
     }
+    //调节器代码
     public class MainRecycleViewAdapter extends RecyclerView.Adapter<MainRecycleViewAdapter.ViewHolder> {
 
         private ArrayList<Book> localDataSet;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             private final TextView textView;
             private final TextView textView1;
             private final TextView textView2;
+            private final TextView textView3;
             private final ImageView imageView;
 
             public ViewHolder(View view) {
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 textView = (TextView) view.findViewById(R.id.biaoti);
                 textView1=(TextView) view.findViewById(R.id.ap);
                 textView2=(TextView) view.findViewById(R.id.time);
+                textView3=(TextView) view.findViewById(R.id.publi);
             }
 
             public TextView getTextView() {
@@ -68,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             public TextView getTextView2() {
                 return textView2;
             }
+
+            public TextView getTextView3() { return textView3;}
 
             public ImageView getImageView() {
                 return imageView;
@@ -88,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             // Create a new view, which defines the UI of the list item
+            //LayoutInflater渲染器
+            //调用该窗口的渲染器从布局文件渲染，主动创建一个view
             View view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.book_layout, viewGroup, false);
 
@@ -105,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             viewHolder.getTextView().setText(localDataSet.get(position).getTitle());
             viewHolder.getTextView1().setText(localDataSet.get(position).getAp());
             viewHolder.getTextView2().setText(localDataSet.get(position).getTime());
+            viewHolder.getTextView3().setText(localDataSet.get(position).getPubli());
             viewHolder.getImageView().setImageResource(localDataSet.get(position).getCoverResourceId());
         }
 
@@ -116,6 +126,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getBook(){
-        books.add(new Book("数学","陈天 著，清华大学出版社","2002-0905",R.drawable.book_1));
+        books.add(new Book("数学","陈天 ","清华大学出版社","2002-0905",R.drawable.book_1));
     }
 }
