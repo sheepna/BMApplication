@@ -1,5 +1,7 @@
 package com.jnu.bmapplication;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,16 +9,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jnu.bmapplication.Data.Book;
 
 import java.util.ArrayList;
@@ -24,11 +29,46 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private MainRecycleViewAdapter mainRecycleViewAdapter;
-    private static final int MENU_ID_ADD = 1;
     private static final int MENU_ID_DELETE = 2;
     private static final int MENU_ID_UPDATE = 3;
-
     private ArrayList<Book>books;
+
+    private ActivityResultLauncher<Intent> addDataLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
+            ,result -> {
+                if(null!=result){
+                    Intent intent=result.getData();
+                    if(result.getResultCode()==EditBookActivity.RESULT_CODE_SUCCESS)
+                    {//创建一个包含所有 extra 数据的 Bundle 对象，然后使用 putExtras() 将 Bundle 插入 Intent 中。
+                        Bundle bundle=intent.getExtras();
+                        String title= bundle.getString("title");
+                        String author= bundle.getString("author");
+                        String publisher= bundle.getString("publisher");
+                        String pubdate= bundle.getString("pubdate");
+                        int position=bundle.getInt("position");
+                        books.add(position, new Book(title,author,publisher,pubdate,R.drawable.book_1));
+                        mainRecycleViewAdapter.notifyItemInserted(position);
+                    }
+                }
+            });
+
+    private ActivityResultLauncher<Intent> updateDataLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
+            ,result -> {
+                if(null!=result){
+                    Intent intent=result.getData();
+                    if(result.getResultCode()==EditBookActivity.RESULT_CODE_SUCCESS)
+                    {//创建一个包含所有 extra 数据的 Bundle 对象，然后使用 putExtras() 将 Bundle 插入 Intent 中。
+                        Bundle bundle=intent.getExtras();
+                        String title= bundle.getString("title");
+                        String author= bundle.getString("author");
+                        String publisher= bundle.getString("publisher");
+                        String pubdate= bundle.getString("pubdate");
+                        int position=bundle.getInt("position");
+                        books.add(position, new Book(title,author,publisher,pubdate,R.drawable.book_1));
+                        mainRecycleViewAdapter.notifyItemInserted(position);
+                    }
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +85,18 @@ public class MainActivity extends AppCompatActivity {
         //接收数据
         mainRecycleViewAdapter=new MainRecycleViewAdapter(books);
         recyclerViewMain.setAdapter(mainRecycleViewAdapter);
+
+        FloatingActionButton button=findViewById(R.id.addbutton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this ,EditBookActivity.class) ;
+                intent.putExtra("position",books.size());//添加 extra 数据，每种方法均接受两个参数：键名和值
+                addDataLauncher.launch(intent);
+                //books.add(item.getOrder(),new Book("added"+item.getOrder(),R.drawable.ic_launcher_background));
+                // mainRecycleViewAdapter.notifyItemInserted(item.getOrder());
+            }
+        });
 
     }
     //ContextMenu实现
@@ -71,6 +123,13 @@ public class MainActivity extends AppCompatActivity {
                         }).create();
                 alertDialog.show();
                 break;
+            case MENU_ID_UPDATE:
+                Intent intentUpdate=new Intent(MainActivity.this,EditBookActivity.class);
+                intentUpdate.putExtra("position",item.getOrder());
+                intentUpdate.putExtra("title",books.get(item.getOrder()).getTitle());
+                intentUpdate.putExtra("author",books.get(item.getOrder()).getAp());
+                intentUpdate.putExtra("publisher",books.get(item.getOrder()).getPubli());
+                intentUpdate.putExtra("pubdate",books.get(item.getOrder()).getTime());
         }
         return super.onContextItemSelected(item);
     }
