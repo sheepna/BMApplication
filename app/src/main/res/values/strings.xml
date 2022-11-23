@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BMApplication</string>
+    <string name="confirmation">确认</string>
+    <string name="sure_to_delete">确定删除</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
 </resources>
