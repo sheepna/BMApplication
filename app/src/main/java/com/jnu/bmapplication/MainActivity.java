@@ -63,8 +63,12 @@ public class MainActivity extends AppCompatActivity {
                         String publisher= bundle.getString("publisher");
                         String pubdate= bundle.getString("pubdate");
                         int position=bundle.getInt("position");
-                        books.add(position, new Book(title,author,publisher,pubdate,R.drawable.book_1));
-                        mainRecycleViewAdapter.notifyItemInserted(position);
+                        books.get(position).setTitle(title);
+                        books.get(position).setAp(author);
+                        books.get(position).setPubli(publisher);
+                        books.get(position).setTime(pubdate);
+                        books.get(position).setResourceId(R.drawable.book_1);
+                        mainRecycleViewAdapter.notifyItemChanged(position);
                     }
                 }
             });
@@ -130,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
                 intentUpdate.putExtra("author",books.get(item.getOrder()).getAp());
                 intentUpdate.putExtra("publisher",books.get(item.getOrder()).getPubli());
                 intentUpdate.putExtra("pubdate",books.get(item.getOrder()).getTime());
+                updateDataLauncher.launch(intentUpdate);
+
         }
         return super.onContextItemSelected(item);
     }
