@@ -30,7 +30,8 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addbutton"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:src="@drawable/ic_add">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
