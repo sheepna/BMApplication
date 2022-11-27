@@ -3,9 +3,13 @@ package com.jnu.bmapplication;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.jnu.bmapplication.Data.Book;
 
 import java.util.ArrayList;
@@ -34,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int MENU_ID_DELETE = 2;
     private static final int MENU_ID_UPDATE = 3;
     private ArrayList<Book>books;
+
+    private Toolbar mToolbar;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private NavigationView mNavigationView;
+    private ImageView imageView;
 
     private ActivityResultLauncher<Intent> addDataLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
             ,result -> {
@@ -139,9 +150,62 @@ public class MainActivity extends AppCompatActivity {
                 // mainRecycleViewAdapter.notifyItemInserted(item.getOrder());
             }
         });
-
+        init();
     }
     //ContextMenu实现
+
+    public void init() {
+        mToolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
+        mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigationView);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawerlayout);
+        //添加toolbar的menu部分
+        mToolbar.inflateMenu(R.menu.toolbar_menu);
+        mActionBarDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        //禁止使用ActionBarDrawerToggle默认的导航图标
+        mActionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActionBarDrawerToggle.setHomeAsUpIndicator(R.mipmap.ic_flb);
+        //将导航图标设置成自己的图片后，导航图标会失去点击打开抽屉菜单的效果，所以需要自己添加点击事件
+        mActionBarDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        mActionBarDrawerToggle.syncState();
+        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);//setDrawerListener弃用
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch (id){
+                    case R.id.drawer_menu_book:
+                        Toast.makeText(MainActivity.this , "Book" , Toast.LENGTH_LONG).show();
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.drawer_menu_search:
+                        Toast.makeText(MainActivity.this , "Search" , Toast.LENGTH_LONG).show();
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.drawer_menu_set:
+                        Toast.makeText(MainActivity.this , "Set" , Toast.LENGTH_LONG).show();
+                        mDrawerLayout.closeDrawers();
+                        break;
+                }
+                return true;
+            }
+        });
+    }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
