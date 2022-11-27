@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/drawer_header_useHead"
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+    </ImageView>
+    <TextView
+        android:id="@+id/drawer_header_userName"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="书架">
+    </TextView>
+    <TextView
+        android:id="@+id/drawer_header_user"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="管理您的书籍">
+    </TextView>
+
+</LinearLayout>

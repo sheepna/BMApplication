@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jnu.bmapplication.Data.Book;
@@ -89,6 +91,42 @@ public class MainActivity extends AppCompatActivity {
         //接收数据
         mainRecycleViewAdapter=new MainRecycleViewAdapter(books);
         recyclerViewMain.setAdapter(mainRecycleViewAdapter);
+
+        //SearchView
+        SearchView searchView=findViewById(R.id.searchview);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"open",Toast.LENGTH_SHORT).show();
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                int i=0;
+                for(;i<books.size();i++){
+                    if(query.equals(books.get(i).getTitle())){
+                        //show
+                        break;
+                    }
+                }
+                if(i==books.size()){
+                    Toast.makeText(MainActivity.this,"dd",Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                return false;
+            }
+        });
 
         FloatingActionButton button=findViewById(R.id.addbutton);
         button.setOnClickListener(new View.OnClickListener() {

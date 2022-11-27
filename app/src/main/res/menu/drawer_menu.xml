@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/drawer_menu_book"
+        android:icon="@mipmap/ic_flb"
+        android:title="书籍" />
+    <item
+        android:id="@+id/drawer_menu_search"
+        android:title="搜索"
+        android:icon="@mipmap/ic_search"/>
+    <item
+        android:id="@+id/drawer_menu_set"
+        android:title="设置"
+        android:icon="@mipmap/ic_setting"/>
+</menu>
