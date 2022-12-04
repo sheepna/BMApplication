@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
-    private ImageView imageView;
+    private ImageView imageViewHeader;
 
     private ActivityResultLauncher<Intent> addDataLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
             ,result -> {
@@ -108,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
         mainRecycleViewAdapter=new MainRecycleViewAdapter(books);
         recyclerViewMain.setAdapter(mainRecycleViewAdapter);
 
+        initSearch();//搜索
+        initFloatActionButton();//悬浮按钮
+        init();//抽屉式菜单
+
+    }
+    //搜索框的实现
+    public void initSearch()
+    {
         //SearchView
         SearchView searchView=findViewById(R.id.searchview);
         searchView.setOnSearchClickListener(new View.OnClickListener() {
@@ -151,7 +159,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+    }
+    //悬浮按钮的实现
+    public void initFloatActionButton()
+    {
         FloatingActionButton button=findViewById(R.id.addbutton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,10 +174,8 @@ public class MainActivity extends AppCompatActivity {
                 // mainRecycleViewAdapter.notifyItemInserted(item.getOrder());
             }
         });
-        init();
     }
-    //ContextMenu实现
-
+    //抽屉式菜单实现
     public void init() {
         mToolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigationView);
@@ -175,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawerlayout);
         //添加toolbar的menu部分
         mToolbar.inflateMenu(R.menu.toolbar_menu);
+
+
         mActionBarDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {

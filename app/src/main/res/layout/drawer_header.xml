@@ -6,7 +6,8 @@
     <ImageView
         android:id="@+id/drawer_header_useHead"
         android:layout_width="match_parent"
-        android:layout_height="110dp">
+        android:layout_height="110dp"
+        android:src="@drawable/bookshelf">
     </ImageView>
     <TextView
         android:id="@+id/drawer_header_userName"
