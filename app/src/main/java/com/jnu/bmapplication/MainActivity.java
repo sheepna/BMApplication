@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"open",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"搜索",Toast.LENGTH_SHORT).show();
             }
         });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -122,11 +122,20 @@ public class MainActivity extends AppCompatActivity {
                 int i=0;
                 for(;i<books.size();i++){
                     if(query.equals(books.get(i).getTitle())){
+                        //显示
+                        Intent intentSearch=new Intent(MainActivity.this,DetailActivity.class);
+                        intentSearch.putExtra("position",i);
+                        intentSearch.putExtra("title",books.get(i).getTitle());
+                        intentSearch.putExtra("author",books.get(i).getAp());
+                        intentSearch.putExtra("publisher",books.get(i).getPubli());
+                        intentSearch.putExtra("pubdate",books.get(i).getTime());
+                        intentSearch.putExtra("translator",books.get(i).getTranslator());
+                        startActivity(intentSearch);
                         break;
                     }
                 }
                 if(i==books.size()){
-                    Toast.makeText(MainActivity.this,"dd",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"未找到",Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
