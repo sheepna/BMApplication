@@ -7,13 +7,15 @@ public class Book {
     private String time;
     private String publi;
     private int resourceId;
+    private String translator;
 
-    public Book(String title,String ap,String publi,String time,int resourceId){
+    public Book(String title, String ap, String publi, String time, int resourceId, String translator){
         this.title=title;
         this.ap=ap;
         this.publi=publi;
         this.time=time;
         this.resourceId=resourceId;
+        this.translator=translator;
     }
     public String getTitle(){
         return title;
@@ -47,6 +49,13 @@ public class Book {
     }
     public void setResourceId(int resourceId) {
         this.resourceId = resourceId;
+    }
+    public String getTranslator() {
+        return translator;
+    }
+
+    public void setTranslator(String translator) {
+        this.translator = translator;
     }
 
 }

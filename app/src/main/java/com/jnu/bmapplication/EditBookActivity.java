@@ -52,6 +52,7 @@ public class EditBookActivity extends AppCompatActivity {
                 bundle .putString("author",editTextAuthor.getText().toString());
                 bundle .putString("publisher",editTextPublisher.getText().toString());
                 bundle .putString("pubdate",editTextPubdate.getText().toString());
+                bundle.putString("translator",editTextTranslator.getText().toString());
                 bundle.putInt("position",position );
 
                 intent .putExtras(bundle);

@@ -7,4 +7,5 @@
     <string name="edit_biaoti">图书编辑</string>
     <string name="navigation_drawer_open">开</string>
     <string name="navigation_drawer_close">关</string>
+    <string name="detail_biaoti">图书详情</string>
 </resources>

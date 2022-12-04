@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private MainRecycleViewAdapter mainRecycleViewAdapter;
     private static final int MENU_ID_DELETE = 2;
     private static final int MENU_ID_UPDATE = 3;
+    private static final int MENU_ID_DETAIL=4;
     private ArrayList<Book>books;
 
     private Toolbar mToolbar;
@@ -57,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
                         String author= bundle.getString("author");
                         String publisher= bundle.getString("publisher");
                         String pubdate= bundle.getString("pubdate");
+                        String translator=bundle.getString("translator");
                         int position=bundle.getInt("position");
-                        books.add(position, new Book(title,author,publisher,pubdate,R.drawable.book_1));
+                        books.add(position, new Book(title,author,publisher,pubdate,R.drawable.book_1,translator));
                         mainRecycleViewAdapter.notifyItemInserted(position);
                     }
                 }
@@ -75,16 +77,19 @@ public class MainActivity extends AppCompatActivity {
                         String author= bundle.getString("author");
                         String publisher= bundle.getString("publisher");
                         String pubdate= bundle.getString("pubdate");
+                        String translator=bundle.getString("translator");
                         int position=bundle.getInt("position");
                         books.get(position).setTitle(title);
                         books.get(position).setAp(author);
                         books.get(position).setPubli(publisher);
                         books.get(position).setTime(pubdate);
+                        books.get(position).setTranslator(translator);
                         books.get(position).setResourceId(R.drawable.book_1);
                         mainRecycleViewAdapter.notifyItemChanged(position);
                     }
                 }
             });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
                 int i=0;
                 for(;i<books.size();i++){
                     if(query.equals(books.get(i).getTitle())){
-                        //show
                         break;
                     }
                 }
@@ -157,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
     public void init() {
         mToolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigationView);
+        //显示图标原色
+        mNavigationView.setItemIconTintList(null);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawerlayout);
         //添加toolbar的menu部分
         mToolbar.inflateMenu(R.menu.toolbar_menu);
@@ -236,7 +242,18 @@ public class MainActivity extends AppCompatActivity {
                 intentUpdate.putExtra("author",books.get(item.getOrder()).getAp());
                 intentUpdate.putExtra("publisher",books.get(item.getOrder()).getPubli());
                 intentUpdate.putExtra("pubdate",books.get(item.getOrder()).getTime());
+                intentUpdate.putExtra("translator",books.get(item.getOrder()).getTranslator());
                 updateDataLauncher.launch(intentUpdate);
+                break;
+            case MENU_ID_DETAIL:
+                Intent intentDetail=new Intent(MainActivity.this,DetailActivity.class);
+                intentDetail.putExtra("position",item.getOrder());
+                intentDetail.putExtra("title",books.get(item.getOrder()).getTitle());
+                intentDetail.putExtra("author",books.get(item.getOrder()).getAp());
+                intentDetail.putExtra("publisher",books.get(item.getOrder()).getPubli());
+                intentDetail.putExtra("pubdate",books.get(item.getOrder()).getTime());
+                intentDetail.putExtra("translator",books.get(item.getOrder()).getTranslator());
+                startActivity(intentDetail);
 
         }
         return super.onContextItemSelected(item);
@@ -290,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
                 contextMenu.add(0,MENU_ID_UPDATE,getAdapterPosition(),"Update ");
                 contextMenu.add(0,MENU_ID_DELETE,getAdapterPosition(),"Delete ");
+                contextMenu.add(0,MENU_ID_DETAIL,getAdapterPosition(),"Detail");
 
             }
         }
@@ -330,11 +348,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getBook(){
-        books.add(new Book("人生海海","麦家 ","北京十月文艺出版社","2019-04",R.drawable.book_1));
-        books.add(new Book("兄弟","余华","作家出版社","2012-09",R.drawable.book_1));
-        books.add(new Book("三体","刘慈欣","电子影音出版社","2018-12",R.drawable.book_1));
-        books.add(new Book("命运","蔡崇达","广州出版社","2022-09",R.drawable.book_1));
-        books.add(new Book("白鹿原","陈忠实","人民文学出版社","2010-07",R.drawable.book_1));
-        books.add(new Book("我与地坛","史铁生","人民文学出版社","2011-04",R.drawable.book_1));
+        books.add(new Book("人生海海","麦家 ","北京十月文艺出版社","2019-04",R.drawable.book_1,"无"));
+        books.add(new Book("兄弟","余华","作家出版社","2012-09",R.drawable.book_1,"无"));
+        books.add(new Book("三体","刘慈欣","电子影音出版社","2018-12",R.drawable.book_1,"无"));
+        books.add(new Book("命运","蔡崇达","广州出版社","2022-09",R.drawable.book_1,"无"));
+        books.add(new Book("白鹿原","陈忠实","人民文学出版社","2010-07",R.drawable.book_1,"无"));
+        books.add(new Book("我与地坛","史铁生","人民文学出版社","2011-04",R.drawable.book_1,"无"));
     }
 }
