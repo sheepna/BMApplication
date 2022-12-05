@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView mNavigationView;
     private ImageView imageViewHeader;
 
+    private DataSaver dataSaver=new DataSaver();
+
     private ActivityResultLauncher<Intent> addDataLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
             ,result -> {
                 if(null!=result){
@@ -101,11 +103,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //准备数据
         books=new ArrayList<Book>();
-        DataSaver dataSaver=new DataSaver();
+        //DataSaver dataSaver=new DataSaver();
         //加载数据
         books=dataSaver.Load(this);
 
-        getBook();
+        if(books.size()==0)
+        {
+            getBook();
+        }
 
         RecyclerView recyclerViewMain=findViewById(R.id.recycleview_main);
         //定义布局管理
@@ -378,9 +383,9 @@ public class MainActivity extends AppCompatActivity {
     public void getBook(){
         books.add(new Book("人生海海","麦家 ","北京十月文艺出版社","2019-04",R.drawable.book_1,"无"));
         books.add(new Book("兄弟","余华","作家出版社","2012-09",R.drawable.book_1,"无"));
-        books.add(new Book("三体","刘慈欣","电子影音出版社","2018-12",R.drawable.book_1,"无"));
-        books.add(new Book("命运","蔡崇达","广州出版社","2022-09",R.drawable.book_1,"无"));
-        books.add(new Book("白鹿原","陈忠实","人民文学出版社","2010-07",R.drawable.book_1,"无"));
-        books.add(new Book("我与地坛","史铁生","人民文学出版社","2011-04",R.drawable.book_1,"无"));
+        //books.add(new Book("三体","刘慈欣","电子影音出版社","2018-12",R.drawable.book_1,"无"));
+        //books.add(new Book("命运","蔡崇达","广州出版社","2022-09",R.drawable.book_1,"无"));
+        //books.add(new Book("白鹿原","陈忠实","人民文学出版社","2010-07",R.drawable.book_1,"无"));
+        //books.add(new Book("我与地坛","史铁生","人民文学出版社","2011-04",R.drawable.book_1,"无"));
     }
 }
