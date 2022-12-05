@@ -3,6 +3,8 @@ package com.jnu.bmapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,5 +40,13 @@ public class DetailActivity extends AppCompatActivity {
         if(null!=translator){ dTextTranslator.setText(translator);}
         if(null!=publisher){ dTextPublisher.setText(publisher);}
         if(null!=pubdate){ dTextPubdate.setText(pubdate);}
+
+        Button buttonNo=findViewById(R.id.detail_button);
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DetailActivity.this.finish();
+            }
+        });
     }
 }
