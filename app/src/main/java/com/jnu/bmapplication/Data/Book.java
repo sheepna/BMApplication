@@ -1,6 +1,8 @@
 package com.jnu.bmapplication.Data;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
 
     private String title;
     private String ap;

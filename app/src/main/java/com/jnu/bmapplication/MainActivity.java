@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.jnu.bmapplication.Data.Book;
+import com.jnu.bmapplication.Data.DataSaver;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                         String translator=bundle.getString("translator");
                         int position=bundle.getInt("position");
                         books.add(position, new Book(title,author,publisher,pubdate,R.drawable.book_1,translator));
+                        //数据保存
+                        new DataSaver().Save(this,books);
                         mainRecycleViewAdapter.notifyItemInserted(position);
                     }
                 }
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         books.get(position).setTime(pubdate);
                         books.get(position).setTranslator(translator);
                         books.get(position).setResourceId(R.drawable.book_1);
+                        new DataSaver().Save(this,books);
                         mainRecycleViewAdapter.notifyItemChanged(position);
                     }
                 }
@@ -97,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //准备数据
         books=new ArrayList<Book>();
+        DataSaver dataSaver=new DataSaver();
+        //加载数据
+        books=dataSaver.Load(this);
+
         getBook();
 
         RecyclerView recyclerViewMain=findViewById(R.id.recycleview_main);
@@ -184,8 +192,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawerlayout);
         //添加toolbar的menu部分
         mToolbar.inflateMenu(R.menu.toolbar_menu);
-
-
+        //动作条抽屉切换器 将 抽屉 与 app icon动作条 绑定正确的交互。
         mActionBarDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -245,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 books.remove(item.getOrder());
+                                new DataSaver().Save(MainActivity.this,books);
                                 mainRecycleViewAdapter.notifyItemRemoved(item.getOrder());
                             }
                         }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
