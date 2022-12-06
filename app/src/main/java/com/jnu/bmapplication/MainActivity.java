@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     {
         //SearchView
         SearchView searchView=findViewById(R.id.searchview);
+        searchView.setSubmitButtonEnabled(true);
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
